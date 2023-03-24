@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sms - student management system</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        input,select{
+            border:1px solid #eee;
+            padding: 10px 5px!important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex">
+        <div class="w-1/4 p-4">
+            <div class="bg-slate-100 p-3 rounded border">
+                <form action="{% url 'homepage'%}" method="post" class="flex flex-col gap-5"> 
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Create record" class="bg-teal-500 flex-1 hover:bg-teal-800 px-3 py-2 rounded shadow-lg">
+                </form>
+            </div>
+        </div>
+        <div class="w-3/4 p-10">
+            <div class="flex my-5 justify-between">
+                <h2 class="text-2xl font-semibold">Manage Record</h2>
+                <form action="{% url 'filter' %}" method="get">
+                    <select onchange="this.form.submit();" name="city" id="" class="w-36 border border-slate-600 rounded-lg">
+                        <option value="" selected disabled>search City</option>
+                        <option value="Patna">Patna</option>
+                        <option value="Purnea">Purnea</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bhagalpur">Bhagalpur</option>
+                    </select>
+                </form>
+
+                <form action="{% url 'search' %}" method="get" class="flex gap-0 justify-center">
+                    <input type="search" name="search" class="border border-slate-400 outline-0 rounded-l-lg" placeholder="Search here">
+                    <input type="submit" class="bg-red-500 text-white py-2 rounded-r-lg outline-0 border-0 w-12 " value="Go">
+                </form>
+            </div>
+            <table class="w-full">
+                <tr>
+                    <th class="border">Id</th>
+                    <th class="border">name</th>
+                    <th class="border">contact</th>
+                    <th class="border">email</th>
+                    <th class="border">City</th>
+                    <th class="border">State</th>
+                    <th class="border">Action</th>
+                </tr>
+                {%for item in students %}
+
+                <tr>
+                    <td class="p-3 border">{{ item.id }}</td>
+                    <td class="p-3 border">{{ item.name }}</td>
+                    <td class="p-3 border">{{ item.contact }}</td>
+                    <td class="p-3 border">{{ item.email }}</td>
+                    <td class="p-3 border">{{ item.city }}</td>
+                    <td class="p-3 border">{{ item.state }}</td>
+                    <td class="p-3 border">
+                        <a href="{% url 'delete' item.id %}" class="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-800">Delete</a>
+                        <a href="{% url 'edit' item.id %}" class="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-800">edit</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+
+        </div>
+    </div>    
+
+
+    
+</body>
+</html>
